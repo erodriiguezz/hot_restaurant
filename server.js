@@ -7,40 +7,8 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-const currentReservations = [
-  {
-    customerName: "sdfsdf",
-    phoneNumber: "sdfsdfsd",
-    customerEmail: "sdfsdfsdf",
-    customerID: "sdfsdfsdf"
-  },
-  {
-    customerName: "sdfsdf",
-    phoneNumber: "sdfsdfsd",
-    customerEmail: "sdfsdfsdf",
-    customerID: "sdfsdfsdf"
-  },
-  {
-    customerName: "sdfsdf",
-    phoneNumber: "sdfsdfsd",
-    customerEmail: "sdfsdfsdf",
-    customerID: "sdfsdfsdf"
-  },
-  {
-    customerName: "sdfsdf",
-    phoneNumber: "sdfsdfsd",
-    customerEmail: "sdfsdfsdf",
-    customerID: "sdfsdfsdf"
-  },
-  {
-    customerName: "sdfsdf",
-    phoneNumber: "sdfsdfsd",
-    customerEmail: "sdfsdfsdf",
-    customerID: "sdfsdfsdf"
-  }
-];
-
-const waitList = [];
+let currentReservations = [];
+let waitList = [];
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/public/index.html");
@@ -58,7 +26,7 @@ app.post("/api/tables", function(req, res) {
   const newReservation = req.body;
   console.log(newReservation);
 
-  if (currentReservations.lenght < 5) {
+  if (currentReservations.length < 5) {
     currentReservations.push(newReservation);
     res.send(true);
   } else {
@@ -73,6 +41,13 @@ app.get("/api/tables", function(req, res) {
 
 app.get("/api/waitlist", function(req, res) {
   res.json(waitList);
+});
+
+app.post("/api/clear", function(req, res) {
+  currentReservations = [];
+  waitList = [];
+
+  res.end();
 });
 
 app.listen(PORT, function() {
